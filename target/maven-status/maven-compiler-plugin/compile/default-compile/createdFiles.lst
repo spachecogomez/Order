@@ -1,0 +1,7 @@
+co/edu/javeriana/aes/pica/model/CustomerDetail.class
+co/edu/javeriana/aes/pica/controllers/OrderController.class
+co/edu/javeriana/aes/pica/model/OrderWrapper.class
+co/edu/javeriana/aes/pica/model/Order.class
+co/edu/javeriana/aes/pica/model/OrderDetail.class
+co/edu/javeriana/aes/pica/model/OrderStatus.class
+co/edu/javeriana/aes/pica/Startup.class
