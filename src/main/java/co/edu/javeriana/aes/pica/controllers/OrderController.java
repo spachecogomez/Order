@@ -65,6 +65,7 @@ public class OrderController {
         order.setOrderDetails(new ArrayList<>());
         order.getOrderDetails().add(orderDetail);
         order.setOrderId(1);
+        order.setStatus(orderStatus);
         OrderWrapper orderWrapper = new OrderWrapper();
         orderWrapper.setOrders(new ArrayList<>());
         orderWrapper.getOrders().add(order);
