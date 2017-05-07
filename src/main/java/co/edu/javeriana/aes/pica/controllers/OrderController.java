@@ -32,13 +32,13 @@ public class OrderController {
     private Logger log = LoggerFactory.getLogger(OrderController.class);
     
     @RequestMapping(value = "/orders", method = RequestMethod.GET,produces = "application/json")
-    public List<OrderWrapper> getOrders(){
+    public List<Order> getOrders(){
         log.debug("Received the customer request");
         return getMockResponse();
     }
     
-    private List<OrderWrapper> getMockResponse(){
-        List<OrderWrapper> result;
+    private List<Order> getMockResponse(){
+        List<Order> result;
         result = new LinkedList<>();
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setItemId(1);
@@ -68,7 +68,7 @@ public class OrderController {
         OrderWrapper orderWrapper = new OrderWrapper();
         orderWrapper.setOrders(new ArrayList<>());
         orderWrapper.getOrders().add(order);
-        result.add(orderWrapper);
+        result.add(order);
         return result;
     }
     
