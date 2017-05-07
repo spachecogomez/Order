@@ -32,8 +32,8 @@ public class OrderController {
     private Logger log = LoggerFactory.getLogger(OrderController.class);
     
     @RequestMapping(value = "/orders", method = RequestMethod.GET,produces = "application/json")
-    public List<OrderWrapper> getOrders(@PathVariable String custid){
-        log.debug(String.format("Received the customer id %s", custid));
+    public List<OrderWrapper> getOrders(){
+        log.debug("Received the customer request");
         return getMockResponse();
     }
     
