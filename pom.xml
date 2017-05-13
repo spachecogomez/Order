@@ -27,7 +27,80 @@
             <artifactId>spring-boot-starter</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Spring data JPA, default tomcat pool, exclude it -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- Oracle JDBC driver -->
+        <!-- https://mvnrepository.com/artifact/com.oracle/ojdbc14 -->
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>8.5.15</version>
+        </dependency>
+
+
     </dependencies>
+    <repositories>
+        <!-- Repository for ORACLE ojdbc6. -->
+        <repository>
+            <id>codelds</id>
+            <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+        </repository>
+        
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>oracle</id>
+            <url>http://www.datanucleus.org/downloads/maven2/</url>
+        </repository>
+    </repositories>
     <build>
         <finalName>customer</finalName>
         <plugins>
