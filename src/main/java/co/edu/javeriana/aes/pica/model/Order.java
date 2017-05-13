@@ -37,6 +37,21 @@ public class Order {
     
     @JsonProperty("order_details")
     private List<OrderDetail> orderDetails;
+    
+    public Order(){
+        
+    }
+    
+    public Order(int orderId, Date orderDate, Long orderPrice,
+             String orderComments ){
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.orderPrice = orderPrice;
+        this.status = status;
+        this.orderComments = orderComments;
+        this.customerDetails = customerDetails;
+        this.orderDetails = orderDetails;
+    }
 
     /**
      * @return the orderId
