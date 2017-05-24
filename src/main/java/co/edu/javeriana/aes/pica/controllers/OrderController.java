@@ -6,15 +6,10 @@
 package co.edu.javeriana.aes.pica.controllers;
 
 import co.edu.javeriana.aes.pica.entities.OrderEntity;
-import co.edu.javeriana.aes.pica.model.CustomerDetail;
 import co.edu.javeriana.aes.pica.model.Order;
-import co.edu.javeriana.aes.pica.model.OrderDetail;
-import co.edu.javeriana.aes.pica.model.OrderStatus;
-import co.edu.javeriana.aes.pica.model.OrderWrapper;
 import co.edu.javeriana.aes.pica.repositories.OrderRepository;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,10 +17,12 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -44,9 +41,9 @@ public class OrderController {
     DataSource dataSource;
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET, produces = "application/json")
-    public List<Order> getOrders() {
+    public List<Order> getOrders(@RequestParam int start , @RequestParam int pageSize) {
         log.info("Received the customer request");
-        List<OrderEntity> resultList = (List<OrderEntity>) orderRepository.findAll();
+        List<OrderEntity> resultList = (List<OrderEntity>) orderRepository.findAll(new PageRequest(start,pageSize));
         Stream<OrderEntity> dbResults = resultList.stream();
         Stream<OrderEntity> dbResults2 = resultList.stream();
         log.info("resultados: "+resultList);
@@ -63,6 +60,7 @@ public class OrderController {
     public ResponseEntity createOrder(@RequestBody List<Order> orders) {
         //TODO: create empty validations
         OrderEntity entityAux;
+        List<OrderEntity> savedOrders = new ArrayList<>();
         for(Order order : orders){
             entityAux = new OrderEntity();
             entityAux.setOrderDate(new Date());
@@ -70,8 +68,9 @@ public class OrderController {
             entityAux.setComments(order.getOrderComments());
             entityAux.setOrderStatus("CREATED");
             orderRepository.save(entityAux);
+            savedOrders.add(entityAux);
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(savedOrders);
     }
 
 }

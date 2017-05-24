@@ -5,14 +5,14 @@
  */
 package co.edu.javeriana.aes.pica.repositories;
 
-import co.edu.javeriana.aes.pica.entities.OrderEntity;
-import org.springframework.data.repository.CrudRepository;
+import co.edu.javeriana.aes.pica.entities.CustomerEntity;
+import java.io.Serializable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author sebastianpacheco
  */
-public interface OrderRepository extends PagingAndSortingRepository<OrderEntity, Integer>{
+public interface CustomerRepository extends PagingAndSortingRepository<CustomerEntity, Integer>{
     
 }
