@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,13 @@ public class CustomerController {
     public List<CustomerEntity> getPagedCustomer(@RequestParam int start, @RequestParam int pageSize) {
         log.debug(String.format("Received start %d and pageSize %s", start, pageSize));
         return customerRepository.findAll(new PageRequest(start, pageSize)).getContent();
+    }
+    
+    @RequestMapping(value = "/customers/{customerId}", 
+            method = RequestMethod.GET, produces = "application/json")
+    public CustomerEntity getCustomerEntity(@PathVariable int customerId){
+        log.debug(String.format("Getting customer by id %d",customerId));
+        return customerRepository.findOne(customerId);
     }
 
 }
