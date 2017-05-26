@@ -8,9 +8,11 @@ package co.edu.javeriana.aes.pica.controllers;
 import co.edu.javeriana.aes.pica.entities.OrderEntity;
 import co.edu.javeriana.aes.pica.model.Order;
 import co.edu.javeriana.aes.pica.repositories.OrderRepository;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
@@ -43,14 +45,16 @@ public class OrderController {
     @RequestMapping(value = "/orders", method = RequestMethod.GET, produces = "application/json")
     public List<Order> getOrders(@RequestParam int start , @RequestParam int pageSize) {
         log.info("Received the customer request");
-        List<OrderEntity> resultList = (List<OrderEntity>) orderRepository.findAll(new PageRequest(start,pageSize));
+        List<OrderEntity> resultList = orderRepository.findAll(new PageRequest(start,pageSize)).getContent();
         Stream<OrderEntity> dbResults = resultList.stream();
         Stream<OrderEntity> dbResults2 = resultList.stream();
         log.info("resultados: "+resultList);
         List<Order> orders = dbResults.map( it 
                 -> 
-        new Order(it.getOrderID(),it.getOrderDate(),
-                it.getPrice().longValue(),it.getComments()))
+        new Order(Optional.ofNullable(it.getOrderID()).orElse(0),
+                Optional.ofNullable(it.getOrderDate()).orElse(new Date()),
+                Optional.ofNullable(it.getPrice()).orElse(BigDecimal.ZERO),
+                Optional.ofNullable(it.getComments()).orElse("")))
                 .collect(Collectors.toList());
         
         return orders;

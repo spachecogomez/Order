@@ -7,6 +7,7 @@ package co.edu.javeriana.aes.pica.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Order {
     private Date orderDate;
     
     @JsonProperty("order_price")
-    private Long orderPrice;
+    private BigDecimal orderPrice;
     
     @JsonProperty("order_status")
     private OrderStatus status;
@@ -42,7 +43,7 @@ public class Order {
         
     }
     
-    public Order(int orderId, Date orderDate, Long orderPrice,
+    public Order(int orderId, Date orderDate, BigDecimal orderPrice,
              String orderComments ){
         this.orderId = orderId;
         this.orderDate = orderDate;
@@ -84,14 +85,14 @@ public class Order {
     /**
      * @return the orderPrice
      */
-    public Long getOrderPrice() {
+    public BigDecimal getOrderPrice() {
         return orderPrice;
     }
 
     /**
      * @param orderPrice the orderPrice to set
      */
-    public void setOrderPrice(Long orderPrice) {
+    public void setOrderPrice(BigDecimal orderPrice) {
         this.orderPrice = orderPrice;
     }
 
