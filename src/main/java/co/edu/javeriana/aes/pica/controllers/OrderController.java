@@ -54,6 +54,7 @@ public class OrderController {
         new Order(Optional.ofNullable(it.getOrderID()).orElse(0),
                 Optional.ofNullable(it.getOrderDate()).orElse(new Date()),
                 Optional.ofNullable(it.getPrice()).orElse(BigDecimal.ZERO),
+                Optional.ofNullable(it.getOrderStatus()).orElse(""),
                 Optional.ofNullable(it.getComments()).orElse("")))
                 .collect(Collectors.toList());
         

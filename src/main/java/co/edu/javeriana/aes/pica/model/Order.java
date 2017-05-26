@@ -43,12 +43,14 @@ public class Order {
         
     }
     
-    public Order(int orderId, Date orderDate, BigDecimal orderPrice,
+    public Order(int orderId, Date orderDate, BigDecimal orderPrice,String status,
              String orderComments ){
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
-        this.status = status;
+        OrderStatus orderStatus = new OrderStatus();
+        orderStatus.setStatusName(status);
+        this.status = orderStatus;
         this.orderComments = orderComments;
         this.customerDetails = customerDetails;
         this.orderDetails = orderDetails;
