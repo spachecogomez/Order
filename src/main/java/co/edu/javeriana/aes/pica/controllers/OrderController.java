@@ -16,11 +16,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
+import javax.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,6 +78,17 @@ public class OrderController {
             savedOrders.add(entityAux);
         }
         return ResponseEntity.ok(savedOrders);
+    }
+    
+    @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET, produces = "application/json")
+    public Order getOrderById(@PathVariable int orderId){
+        log.debug(String.format("Getting the order with id %d",orderId));
+        OrderEntity entity = orderRepository.findOne(orderId);
+        return  new Order(Optional.ofNullable(entity.getOrderID()).orElse(0),
+                Optional.ofNullable(entity.getOrderDate()).orElse(new Date()),
+                Optional.ofNullable(entity.getPrice()).orElse(BigDecimal.ZERO),
+                Optional.ofNullable(entity.getOrderStatus()).orElse(""),
+                Optional.ofNullable(entity.getComments()).orElse(""));
     }
 
 }
