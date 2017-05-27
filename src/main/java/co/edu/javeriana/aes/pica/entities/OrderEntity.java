@@ -52,8 +52,8 @@ public class OrderEntity implements Serializable {
     @Column(name = "COMMENTS")
     private String comments;
     
-//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "order" ,fetch = FetchType.LAZY)
-    //private List<ItemEntity> items;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "order" ,fetch = FetchType.LAZY)
+    private List<ItemEntity> items;
 
     /**
      * @return the orderID
@@ -139,19 +139,19 @@ public class OrderEntity implements Serializable {
         this.comments = comments;
     }
 
-//    /**
-//     * @return the items
-//     */
-//    public List<ItemEntity> getItems() {
-//        return items;
-//    }
-//
-//    /**
-//     * @param items the items to set
-//     */
-//    public void setItems(List<ItemEntity> items) {
-//        this.items = items;
-//    }
+    /**
+     * @return the items
+     */
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
+    }
     
     
     
