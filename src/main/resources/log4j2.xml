@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{dd/MM/yy - HH:mm:ss.SSS} [%t] [%-5level] [%logger{36}] - %msg%n"/>
         </Console>
-        <File name="fileAp" fileName="/Users/sebastianpacheco/IdeaProjects/springbootdocker/server.log.json">
+        <File name="fileAp" fileName="server.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
     </Appenders>

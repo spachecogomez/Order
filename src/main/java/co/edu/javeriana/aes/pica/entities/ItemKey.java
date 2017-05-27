@@ -21,9 +21,9 @@ public class ItemKey implements Serializable{
     @Column(name = "ITEM_ID")
     private Integer itemId;
     
-    @Column(name = "ORDER_ID")
-    @ManyToMany(mappedBy = "items",targetEntity = OrderEntity.class)
-    private Integer orderId;
+//    @Column(name = "ORDER_ID")
+//    @ManyToMany(mappedBy = "items",targetEntity = OrderEntity.class)
+//    private Integer orderId;
 
     /**
      * @return the itemId
@@ -39,18 +39,18 @@ public class ItemKey implements Serializable{
         this.itemId = itemId;
     }
 
-    /**
-     * @return the orderId
-     */
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    /**
-     * @param orderId the orderId to set
-     */
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
+//    /**
+//     * @return the orderId
+//     */
+//    public Integer getOrderId() {
+//        return orderId;
+//    }
+//
+//    /**
+//     * @param orderId the orderId to set
+//     */
+//    public void setOrderId(Integer orderId) {
+//        this.orderId = orderId;
+//    }
     
 }

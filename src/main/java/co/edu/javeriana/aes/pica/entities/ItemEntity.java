@@ -41,7 +41,7 @@ public class ItemEntity {
     
 //    @ManyToOne
 //    @JoinColumn(name = "ORDER_ID")
-    private OrderEntity order;
+//    private OrderEntity order;
 
     /**
      * @return the itemKey
