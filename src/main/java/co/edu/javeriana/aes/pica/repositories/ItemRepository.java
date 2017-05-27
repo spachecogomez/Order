@@ -5,14 +5,15 @@
  */
 package co.edu.javeriana.aes.pica.repositories;
 
+
 import co.edu.javeriana.aes.pica.entities.ItemEntity;
-import co.edu.javeriana.aes.pica.entities.ItemKey;
+import co.edu.javeriana.aes.pica.entities.ItemEntityPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author sebastianpacheco
  */
-public interface ItemRepository extends PagingAndSortingRepository<ItemEntity,ItemKey>{
+public interface ItemRepository extends PagingAndSortingRepository<ItemEntity,ItemEntityPK>{
     
 }

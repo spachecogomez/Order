@@ -16,11 +16,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -29,6 +32,12 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "ORDERS")
 public class OrderEntity implements Serializable {
+
+    @Size(max = 10)
+    @Column(name = "CUST_ID", length = 10)
+    private String custId;
+    @Column(name = "PRICE")
+    private Integer price;
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_generator")
@@ -36,15 +45,11 @@ public class OrderEntity implements Serializable {
     @Column(name = "ORD_ID")
     private Integer orderID;
     
-    @Column(name = "CUST_ID")
-    private Integer customerId;
     
     @Column(name = "ORDER_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
     
-    @Column(name = "PRICE")
-    private BigDecimal price;
     
     @Column(name = "STATUS")
     private String orderStatus;
@@ -52,8 +57,9 @@ public class OrderEntity implements Serializable {
     @Column(name = "COMMENTS")
     private String comments;
     
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "order" ,fetch = FetchType.LAZY)
-    private List<ItemEntity> items;
+    
+    @OneToMany(cascade = CascadeType.ALL , targetEntity = ItemEntity.class)
+    private List<ItemEntity> itemEntity;
 
     /**
      * @return the orderID
@@ -69,19 +75,6 @@ public class OrderEntity implements Serializable {
         this.orderID = orderID;
     }
 
-    /**
-     * @return the customerId
-     */
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    /**
-     * @param customerId the customerId to set
-     */
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
 
     /**
      * @return the orderDate
@@ -97,19 +90,6 @@ public class OrderEntity implements Serializable {
         this.orderDate = orderDate;
     }
 
-    /**
-     * @return the price
-     */
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    /**
-     * @param price the price to set
-     */
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
 
     /**
      * @return the orderStatus
@@ -139,20 +119,32 @@ public class OrderEntity implements Serializable {
         this.comments = comments;
     }
 
-    /**
-     * @return the items
-     */
-    public List<ItemEntity> getItems() {
-        return items;
+    public OrderEntity() {
     }
 
-    /**
-     * @param items the items to set
-     */
-    public void setItems(List<ItemEntity> items) {
-        this.items = items;
+    public String getCustId() {
+        return custId;
     }
-    
-    
+
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public List<ItemEntity> getItemEntity() {
+        return itemEntity;
+    }
+
+    public void setItemEntity(List<ItemEntity> itemEntity) {
+        this.itemEntity = itemEntity;
+    }
+
     
 }
