@@ -8,11 +8,15 @@ package co.edu.javeriana.aes.pica.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -47,6 +51,9 @@ public class OrderEntity implements Serializable {
     
     @Column(name = "COMMENTS")
     private String comments;
+    
+//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "order" ,fetch = FetchType.LAZY)
+    //private List<ItemEntity> items;
 
     /**
      * @return the orderID
@@ -131,5 +138,21 @@ public class OrderEntity implements Serializable {
     public void setComments(String comments) {
         this.comments = comments;
     }
+
+//    /**
+//     * @return the items
+//     */
+//    public List<ItemEntity> getItems() {
+//        return items;
+//    }
+//
+//    /**
+//     * @param items the items to set
+//     */
+//    public void setItems(List<ItemEntity> items) {
+//        this.items = items;
+//    }
+    
+    
     
 }
