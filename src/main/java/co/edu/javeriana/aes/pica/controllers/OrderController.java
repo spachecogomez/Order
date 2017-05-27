@@ -10,6 +10,7 @@ import co.edu.javeriana.aes.pica.entities.ItemEntityPK;
 import co.edu.javeriana.aes.pica.entities.OrderEntity;
 import co.edu.javeriana.aes.pica.model.Order;
 import co.edu.javeriana.aes.pica.model.OrderDetail;
+import co.edu.javeriana.aes.pica.model.OrderList;
 import co.edu.javeriana.aes.pica.repositories.ItemRepository;
 import co.edu.javeriana.aes.pica.repositories.OrderRepository;
 import java.math.BigDecimal;
@@ -52,7 +53,7 @@ public class OrderController {
     DataSource dataSource;
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET, produces = "application/json")
-    public List<Order> getOrders(@RequestParam int start, @RequestParam int pageSize) {
+    public OrderList getOrders(@RequestParam int start, @RequestParam int pageSize) {
         log.info("Received the customer request");
         List<OrderEntity> resultList = orderRepository.findAll(new PageRequest(start, pageSize)).getContent();
         Stream<OrderEntity> dbResults = resultList.stream();
@@ -65,8 +66,10 @@ public class OrderController {
                         Optional.ofNullable(it.getOrderStatus()).orElse(""),
                         Optional.ofNullable(it.getComments()).orElse("")))
                 .collect(Collectors.toList());
-
-        return orders;
+        OrderList ol = new OrderList();
+        ol.setSize(orderRepository.count());
+        ol.setDetails(orders);
+        return ol;
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.POST, produces = "application/json")
