@@ -8,6 +8,7 @@ package co.edu.javeriana.aes.pica.controllers;
 import co.edu.javeriana.aes.pica.entities.ItemEntity;
 import co.edu.javeriana.aes.pica.entities.ItemEntityPK;
 import co.edu.javeriana.aes.pica.entities.OrderEntity;
+import co.edu.javeriana.aes.pica.model.CustomerDetail;
 import co.edu.javeriana.aes.pica.model.Order;
 import co.edu.javeriana.aes.pica.model.OrderDetail;
 import co.edu.javeriana.aes.pica.model.OrderList;
@@ -64,7 +65,15 @@ public class OrderController {
                         Optional.ofNullable(it.getOrderDate()).orElse(new Date()),
                         Optional.ofNullable(new BigDecimal(it.getPrice())).orElse(BigDecimal.ZERO),
                         Optional.ofNullable(it.getOrderStatus()).orElse(""),
-                        Optional.ofNullable(it.getComments()).orElse("")))
+                        Optional.ofNullable(it.getComments()).orElse(""), 
+                        new CustomerDetail(it.getCustId().getCustomerId(), 
+                        it.getCustId().getFirstName(),
+                        it.getCustId().getLastName(),
+                        it.getCustId().getCreditCardNumber(),
+                        it.getCustId().getCreditCardType(),
+                        it.getCustId().getEmail(),
+                        it.getCustId().getStatus()
+                )))
                 .collect(Collectors.toList());
         OrderList ol = new OrderList();
         ol.setSize(orderRepository.count());
@@ -85,30 +94,30 @@ public class OrderController {
             log.debug("Amount on order details:" + order.getOrderDetails().size());
             entityAux = new OrderEntity();
             entityAux.setOrderDate(new Date());
-            entityAux.setCustId(order.getCustomerDetails().getCustomerId() + "");
+            //entityAux.setCustId(order.getCustomerDetails().getCustomerId() + "");
             entityAux.setComments(order.getOrderComments());
             entityAux.setOrderStatus("CREATED");
+
+            orderRepository.save(entityAux);
 //            for (OrderDetail detail : order.getOrderDetails()) {
 //                entity = new ItemEntity();
 //                entityPK = new ItemEntityPK();
 //                entityPK.setItemId(""+detail.getItemId());
-//                entityPK.setOrdId(""+entityAux.getOrderID());
+//                entityPK.setOrdId(entityAux.getOrderID());
 //                entity.setProdId(new BigInteger("" + detail.getProductId()));
 //                entity.setProductName(detail.getSpectacleName());
 //                entity.setPrice(detail.getTotalPrice());
 //                entity.setQuantity(detail.getQuantity());
 //                entity.setOrderEntity(entityAux);
 //                entity.setItemEntityPK(entityPK);
-//                items.add(entity);
+//                itemRepository.save(entity);
 //            }
-            //entityAux.setItemEntity(items);
-            orderRepository.save(entityAux);
             savedOrders.add(entityAux);
         }
         return ResponseEntity.ok(savedOrders);
     }
 
-        @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET, produces = "application/json")
     public Order getOrderById(@PathVariable int orderId) {
         log.debug(String.format("Getting the order with id %d", orderId));
         OrderEntity entity = orderRepository.findOne(orderId);
@@ -116,11 +125,20 @@ public class OrderController {
                 Optional.ofNullable(entity.getOrderDate()).orElse(new Date()),
                 Optional.ofNullable(new BigDecimal(entity.getPrice())).orElse(BigDecimal.ZERO),
                 Optional.ofNullable(entity.getOrderStatus()).orElse(""),
-                Optional.ofNullable(entity.getComments()).orElse(""));
+                Optional.ofNullable(entity.getComments()).orElse(""), 
+                new CustomerDetail(entity.getCustId().getCustomerId(), 
+                        entity.getCustId().getFirstName(),
+                        entity.getCustId().getLastName(),
+                        entity.getCustId().getCreditCardNumber(),
+                        entity.getCustId().getCreditCardType(),
+                        entity.getCustId().getEmail(),
+                        entity.getCustId().getStatus()
+                )
+        );
     }
-    
+
     @RequestMapping(value = "/orders/size", method = RequestMethod.GET, produces = "application/json")
-    public Long getAmountOfOrders(){
+    public Long getAmountOfOrders() {
         return orderRepository.count();
     }
 

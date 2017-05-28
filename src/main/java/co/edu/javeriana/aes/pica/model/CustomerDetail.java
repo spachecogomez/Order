@@ -12,35 +12,52 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author sebastianpacheco
  */
 public class CustomerDetail {
+
     @JsonProperty("cust_id")
     private int customerId;
-    
+
     @JsonProperty("cust_firstname")
     private String customerFirstName;
-    
+
     @JsonProperty("cust_lastname")
     private String customerLastName;
-    
+
     @JsonProperty("cust_phone")
     private String customerPhone;
-    
+
     @JsonProperty("cust_address")
     private String customerAdress;
-    
+
     @JsonProperty("cust_email")
     private String customerEmail;
-    
+
     @JsonProperty("cust_password")
     private String customerPassword;
-    
+
     @JsonProperty("cust_credit_card_type")
     private String customerCreditCardType;
-    
+
     @JsonProperty("cust_credit_card_number")
     private String customerCreditCardNumber;
-    
+
     @JsonProperty("cust_status")
     private String customerStatus;
+
+    public CustomerDetail() {
+
+    }
+
+    public CustomerDetail(int customerId, String customerFirstName, 
+                          String customerLastName, String customerCreditCardNumber
+                        , String customerCreditCardType,String customerEmail,String customerStatus) {
+        this.customerId = customerId;
+        this.customerFirstName = customerFirstName;
+        this.customerLastName = customerLastName;
+        this.customerCreditCardNumber = customerCreditCardNumber;
+        this.customerCreditCardType = customerCreditCardType;
+        this.customerEmail = customerEmail;
+        this.customerStatus = customerStatus;
+    }
 
     /**
      * @return the customerId

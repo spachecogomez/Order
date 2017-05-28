@@ -28,12 +28,12 @@ public class ItemEntityPK implements Serializable {
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "ORD_ID", nullable = false, length = 10)
-    private String ordId;
+    private Integer ordId;
 
     public ItemEntityPK() {
     }
 
-    public ItemEntityPK(String itemId, String ordId) {
+    public ItemEntityPK(String itemId, Integer ordId) {
         this.itemId = itemId;
         this.ordId = ordId;
     }
@@ -46,11 +46,11 @@ public class ItemEntityPK implements Serializable {
         this.itemId = itemId;
     }
 
-    public String getOrdId() {
+    public Integer getOrdId() {
         return ordId;
     }
 
-    public void setOrdId(String ordId) {
+    public void setOrdId(Integer ordId) {
         this.ordId = ordId;
     }
 

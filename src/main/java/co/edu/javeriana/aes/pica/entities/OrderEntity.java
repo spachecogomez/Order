@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -33,9 +34,11 @@ import javax.validation.constraints.Size;
 @Table(name = "ORDERS")
 public class OrderEntity implements Serializable {
 
-    @Size(max = 10)
-    @Column(name = "CUST_ID", length = 10)
-    private String custId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CUST_ID", referencedColumnName = "CUST_ID")
+    private CustomerEntity custId;
+    
+    
     @Column(name = "PRICE")
     private Integer price;
     
@@ -122,11 +125,11 @@ public class OrderEntity implements Serializable {
     public OrderEntity() {
     }
 
-    public String getCustId() {
+    public CustomerEntity getCustId() {
         return custId;
     }
 
-    public void setCustId(String custId) {
+    public void setCustId(CustomerEntity custId) {
         this.custId = custId;
     }
 
