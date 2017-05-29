@@ -51,7 +51,7 @@ public class OrderController {
 
     @Autowired
     private ItemRepository itemRepository;
-    
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -69,15 +69,15 @@ public class OrderController {
                         Optional.ofNullable(it.getOrderDate()).orElse(new Date()),
                         Optional.ofNullable(new BigDecimal(it.getPrice())).orElse(BigDecimal.ZERO),
                         Optional.ofNullable(it.getOrderStatus()).orElse(""),
-                        Optional.ofNullable(it.getComments()).orElse(""), 
-                        new CustomerDetail(it.getCustId().getCustomerId(), 
-                        it.getCustId().getFirstName(),
-                        it.getCustId().getLastName(),
-                        it.getCustId().getCreditCardNumber(),
-                        it.getCustId().getCreditCardType(),
-                        it.getCustId().getEmail(),
-                        it.getCustId().getStatus()
-                ),null))
+                        Optional.ofNullable(it.getComments()).orElse(""),
+                        new CustomerDetail(it.getCustId().getCustomerId(),
+                                it.getCustId().getFirstName(),
+                                it.getCustId().getLastName(),
+                                it.getCustId().getCreditCardNumber(),
+                                it.getCustId().getCreditCardType(),
+                                it.getCustId().getEmail(),
+                                it.getCustId().getStatus()
+                        ), null))
                 .collect(Collectors.toList());
         OrderList ol = new OrderList();
         ol.setSize(orderRepository.count());
@@ -138,22 +138,24 @@ public class OrderController {
         List<ItemEntity> items = entity.getItemEntity();
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = null;
-        for(ItemEntity item : items){
-            orderDetail = new OrderDetail();
-            orderDetail.setItemId(item.getItemEntityPK().getItemId());
-            orderDetail.setProductId(item.getProdId().intValue());
-            orderDetail.setQuantity(item.getQuantity());
-            orderDetail.setSpectacleName(item.getProductName());
-            orderDetail.setTotalPrice(item.getPrice());
-            orderDetails.add(orderDetail);
+        if (items != null) {
+            for (ItemEntity item : items) {
+                orderDetail = new OrderDetail();
+                orderDetail.setItemId(item.getItemEntityPK().getItemId());
+                orderDetail.setProductId(item.getProdId().intValue());
+                orderDetail.setQuantity(item.getQuantity());
+                orderDetail.setSpectacleName(item.getProductName());
+                orderDetail.setTotalPrice(item.getPrice());
+                orderDetails.add(orderDetail);
+            }
         }
-        log.debug(String.format("Amount of items %d for the order %d",items.size(),orderId));
+        log.debug(String.format("Amount of items %d for the order %d", items.size(), orderId));
         return new Order(Optional.ofNullable(entity.getOrderID()).orElse(0),
                 Optional.ofNullable(entity.getOrderDate()).orElse(new Date()),
                 Optional.ofNullable(new BigDecimal(entity.getPrice())).orElse(BigDecimal.ZERO),
                 Optional.ofNullable(entity.getOrderStatus()).orElse(""),
-                Optional.ofNullable(entity.getComments()).orElse(""), 
-                new CustomerDetail(entity.getCustId().getCustomerId(), 
+                Optional.ofNullable(entity.getComments()).orElse(""),
+                new CustomerDetail(entity.getCustId().getCustomerId(),
                         entity.getCustId().getFirstName(),
                         entity.getCustId().getLastName(),
                         entity.getCustId().getCreditCardNumber(),
@@ -163,6 +165,5 @@ public class OrderController {
                 ), orderDetails
         );
     }
-
 
 }
