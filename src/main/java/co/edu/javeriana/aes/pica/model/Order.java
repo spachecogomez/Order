@@ -44,7 +44,7 @@ public class Order {
     }
     
     public Order(int orderId, Date orderDate, BigDecimal orderPrice,String status,
-             String orderComments ,CustomerDetail customerDetails){
+             String orderComments ,CustomerDetail customerDetails,List<OrderDetail> orderDetails){
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
@@ -55,6 +55,7 @@ public class Order {
         this.customerDetails = customerDetails;
         this.orderDetails = orderDetails;
         this.customerDetails = customerDetails;
+        this.orderDetails = orderDetails;
     }
 
     /**

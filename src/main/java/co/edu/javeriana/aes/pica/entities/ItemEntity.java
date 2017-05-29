@@ -69,7 +69,7 @@ public class ItemEntity implements Serializable {
         this.itemEntityPK = itemEntityPK;
     }
 
-    public ItemEntity(String itemId, Integer ordId) {
+    public ItemEntity(Integer itemId, Integer ordId) {
         this.itemEntityPK = new ItemEntityPK(itemId, ordId);
     }
 

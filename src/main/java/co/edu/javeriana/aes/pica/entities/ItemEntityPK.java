@@ -23,7 +23,7 @@ public class ItemEntityPK implements Serializable {
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "ITEM_ID", nullable = false, length = 10)
-    private String itemId;
+    private Integer itemId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -33,16 +33,16 @@ public class ItemEntityPK implements Serializable {
     public ItemEntityPK() {
     }
 
-    public ItemEntityPK(String itemId, Integer ordId) {
+    public ItemEntityPK(Integer itemId, Integer ordId) {
         this.itemId = itemId;
         this.ordId = ordId;
     }
 
-    public String getItemId() {
+    public Integer getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 
@@ -69,10 +69,7 @@ public class ItemEntityPK implements Serializable {
             return false;
         }
         ItemEntityPK other = (ItemEntityPK) object;
-        if ((this.itemId == null && other.itemId != null) || (this.itemId != null && !this.itemId.equals(other.itemId))) {
-            return false;
-        }
-        if ((this.ordId == null && other.ordId != null) || (this.ordId != null && !this.ordId.equals(other.ordId))) {
+        if ((this.ordId == null && other.ordId != null) || (this.ordId != null && !this.ordId.equals(other.ordId)) && (this.itemId == null && other.itemId != null) || (this.itemId != null && !this.itemId.equals(other.itemId))) {
             return false;
         }
         return true;

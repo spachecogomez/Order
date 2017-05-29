@@ -61,7 +61,7 @@ public class OrderEntity implements Serializable {
     private String comments;
     
     
-    @OneToMany(cascade = CascadeType.ALL , targetEntity = ItemEntity.class)
+    @OneToMany(cascade = CascadeType.ALL , targetEntity = ItemEntity.class, mappedBy = "orderEntity")
     private List<ItemEntity> itemEntity;
 
     /**

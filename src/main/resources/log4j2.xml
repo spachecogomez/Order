@@ -9,8 +9,9 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="co.edu.javeriana.aes.pica.controllers" level="ALL" additivity="false">
+        <Logger name="co.edu.javeriana.aes.pica.controllers" level="all" additivity="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="fileAp"/>
         </Logger>
         <Logger name="org.springframework" level="info" additivity="false">
             <AppenderRef ref="Console"/>
