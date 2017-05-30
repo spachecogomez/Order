@@ -36,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import tures_business_check_process.EspectaculoRequest;
+import tures_business_check_process.TuresBalonRequest;
 
 /**
  *
@@ -113,6 +115,7 @@ public class OrderController {
             entityAux.setOrderStatus("CREATED");
 
             orderRepository.save(entityAux);
+            log.debug(String.format("Created id for the order %d", entityAux.getOrderID()));
             for (OrderDetail detail : order.getOrderDetails()) {
                 entity = new ItemEntity();
                 entityPK = new ItemEntityPK();
@@ -128,6 +131,9 @@ public class OrderController {
             }
             savedOrders.add(entityAux);
         }
+        TuresBalonRequest request = new TuresBalonRequest();
+        EspectaculoRequest espectaculoRequest = new EspectaculoRequest();
+        //espectaculoRequest.setCiudadEspectaculo(value);
         return ResponseEntity.ok(savedOrders);
     }
 
@@ -135,35 +141,40 @@ public class OrderController {
     public Order getOrderById(@PathVariable int orderId) {
         log.debug(String.format("Getting the order with id %d", orderId));
         OrderEntity entity = orderRepository.findOne(orderId);
-        List<ItemEntity> items = entity.getItemEntity();
-        List<OrderDetail> orderDetails = new ArrayList<>();
-        OrderDetail orderDetail = null;
-        if (items != null) {
-            for (ItemEntity item : items) {
-                orderDetail = new OrderDetail();
-                orderDetail.setItemId(item.getItemEntityPK().getItemId());
-                orderDetail.setProductId(item.getProdId().intValue());
-                orderDetail.setQuantity(item.getQuantity());
-                orderDetail.setSpectacleName(item.getProductName());
-                orderDetail.setTotalPrice(item.getPrice());
-                orderDetails.add(orderDetail);
+        Optional<OrderEntity> opt = Optional.ofNullable(entity);
+        if (opt.isPresent()) {
+            List<ItemEntity> items = entity.getItemEntity();
+            List<OrderDetail> orderDetails = new ArrayList<>();
+            OrderDetail orderDetail = null;
+            if (items != null) {
+                for (ItemEntity item : items) {
+                    orderDetail = new OrderDetail();
+                    orderDetail.setItemId(item.getItemEntityPK().getItemId());
+                    orderDetail.setProductId(item.getProdId().intValue());
+                    orderDetail.setQuantity(item.getQuantity());
+                    orderDetail.setSpectacleName(item.getProductName());
+                    orderDetail.setTotalPrice(item.getPrice());
+                    orderDetails.add(orderDetail);
+                }
             }
+            log.debug(String.format("Amount of items %d for the order %d", items.size(), orderId));
+            return new Order(Optional.ofNullable(entity.getOrderID()).orElse(0),
+                    Optional.ofNullable(entity.getOrderDate()).orElse(new Date()),
+                    Optional.ofNullable(new BigDecimal(entity.getPrice())).orElse(BigDecimal.ZERO),
+                    Optional.ofNullable(entity.getOrderStatus()).orElse(""),
+                    Optional.ofNullable(entity.getComments()).orElse(""),
+                    new CustomerDetail(entity.getCustId().getCustomerId(),
+                            entity.getCustId().getFirstName(),
+                            entity.getCustId().getLastName(),
+                            entity.getCustId().getCreditCardNumber(),
+                            entity.getCustId().getCreditCardType(),
+                            entity.getCustId().getEmail(),
+                            entity.getCustId().getStatus()
+                    ), orderDetails
+            );
+        } else {
+            return null;
         }
-        log.debug(String.format("Amount of items %d for the order %d", items.size(), orderId));
-        return new Order(Optional.ofNullable(entity.getOrderID()).orElse(0),
-                Optional.ofNullable(entity.getOrderDate()).orElse(new Date()),
-                Optional.ofNullable(new BigDecimal(entity.getPrice())).orElse(BigDecimal.ZERO),
-                Optional.ofNullable(entity.getOrderStatus()).orElse(""),
-                Optional.ofNullable(entity.getComments()).orElse(""),
-                new CustomerDetail(entity.getCustId().getCustomerId(),
-                        entity.getCustId().getFirstName(),
-                        entity.getCustId().getLastName(),
-                        entity.getCustId().getCreditCardNumber(),
-                        entity.getCustId().getCreditCardType(),
-                        entity.getCustId().getEmail(),
-                        entity.getCustId().getStatus()
-                ), orderDetails
-        );
     }
 
 }
